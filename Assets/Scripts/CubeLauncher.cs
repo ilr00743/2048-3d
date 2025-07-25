@@ -9,21 +9,22 @@ public class CubeLauncher : MonoBehaviour
     [SerializeField] private float _launchForce = 10f;
     [SerializeField] private Transform _spawnPoint;
     [SerializeField] private CubesConfig _cubesConfig;
+    [SerializeField] private Cube _cubePrefab;
 
     private bool _isDragging;
     private Vector3 _dragOffset;
     private Camera _camera;
+    private Cube _currentCube;
 
-    [field: SerializeField] public Cube CurrentCube { get; set; }
-    [field: SerializeField] public Cube CubePrefab { get; set; }
 
     private void Start()
     {
-        CurrentCube = Instantiate(CubePrefab, _spawnPoint.position, Quaternion.identity);
+        _currentCube = Instantiate(_cubePrefab, _spawnPoint.position, Quaternion.identity);
         var cubeData = _cubesConfig.Cubes.FirstOrDefault(c => c.Index == 2);
-        CurrentCube.Initialize(cubeData.Index, cubeData.Color);
-        CurrentCube.GetComponent<Rigidbody>().isKinematic = true;
-        CurrentCube.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
+        
+        _currentCube.Initialize(cubeData.Index, cubeData.Color);
+        
+        _currentCube.SetKinematic(true);
 
         _camera = Camera.main;
     }
@@ -55,7 +56,7 @@ public class CubeLauncher : MonoBehaviour
     {
         _isDragging = true;
         Vector3 mousePosition = GetMouseWorldPosition();
-        _dragOffset = CurrentCube.transform.position - mousePosition;
+        _dragOffset = _currentCube.transform.position - mousePosition;
     }
 
     private void UpdateDrag()
@@ -63,43 +64,37 @@ public class CubeLauncher : MonoBehaviour
         Vector3 mousePosition = GetMouseWorldPosition();
         Vector3 targetPosition = mousePosition + _dragOffset;
 
-        targetPosition.y = CurrentCube.transform.position.y;
-        targetPosition.z = CurrentCube.transform.position.z;
+        targetPosition.y = _currentCube.transform.position.y;
+        targetPosition.z = _currentCube.transform.position.z;
         targetPosition.x = Mathf.Clamp(targetPosition.x, _minX, _maxX);
 
-        CurrentCube.transform.position = targetPosition;
+        _currentCube.transform.position = targetPosition;
     }
 
     private void StopDrag()
     {
         _isDragging = false;
         LaunchCube();
-        CurrentCube = null;
-        CurrentCube = Instantiate(CubePrefab, _spawnPoint.position, Quaternion.identity);
+        
+        _currentCube = null;
+        _currentCube = Instantiate(_cubePrefab, _spawnPoint.position, Quaternion.identity);
+        
         var cubeData = _cubesConfig.Cubes.FirstOrDefault(c => c.Index == 4);
-        CurrentCube.Initialize(cubeData.Index, cubeData.Color);
-        CurrentCube.GetComponent<Rigidbody>().isKinematic = true;
-        CurrentCube.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
+        _currentCube.Initialize(cubeData.Index, cubeData.Color);
+        
+        _currentCube.SetKinematic(true);
     }
 
     private void LaunchCube()
     {
-        Rigidbody cubeRb = CurrentCube.GetComponent<Rigidbody>();
-
-        if (cubeRb != null)
-        {
-            CurrentCube.GetComponent<Rigidbody>().isKinematic = false;
-            CurrentCube.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
-
-            Vector3 launchDirection = Vector3.forward;
-            cubeRb.AddForce(launchDirection * _launchForce, ForceMode.Impulse);
-        }
+        _currentCube.SetKinematic(false);
+        _currentCube.PushForward(_launchForce);
     }
 
     private Vector3 GetMouseWorldPosition()
     {
         Vector3 mousePosition = Input.mousePosition;
-        mousePosition.z = Mathf.Abs(_camera.transform.position.z - CurrentCube.transform.position.z);
+        mousePosition.z = Mathf.Abs(_camera.transform.position.z - _currentCube.transform.position.z);
         return _camera.ScreenToWorldPoint(mousePosition);
     }
 }
