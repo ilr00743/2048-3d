@@ -128,6 +128,37 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 973237333}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &134939866
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 134939867}
+  m_Layer: 0
+  m_Name: SpawnPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 2488908585195742037, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &134939867
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 134939866}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.5100005, z: -6.0738287}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &611522215
 GameObject:
   m_ObjectHideFlags: 0
@@ -801,6 +832,58 @@ Transform:
   m_Children: []
   m_Father: {fileID: 611522216}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2069123125
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2069123127}
+  - component: {fileID: 2069123126}
+  m_Layer: 0
+  m_Name: CubeLauncher
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2069123126
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2069123125}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c0850fd84b442fdab26c74eccba4a65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _minX: -2.67
+  _maxX: 2.67
+  _launchForce: 20
+  _spawnPoint: {fileID: 134939867}
+  _cubesConfig: {fileID: 11400000, guid: fd7fa54039fc94b4288d6b9cec52cdbf, type: 2}
+  <CurrentCube>k__BackingField: {fileID: 0}
+  <CubePrefab>k__BackingField: {fileID: -2414694085982039567, guid: 660edfa0a9612c64fb25cc028cb2ac5e,
+    type: 3}
+--- !u!4 &2069123127
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2069123125}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.40530166, y: 3.241646, z: -7.89147}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &2088188799 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3127062095201892658, guid: 81ae8cbd3adb42d408b728fd29ecdd1b,
@@ -975,3 +1058,5 @@ SceneRoots:
   - {fileID: 963194228}
   - {fileID: 1215840113}
   - {fileID: 611522216}
+  - {fileID: 2069123127}
+  - {fileID: 134939867}

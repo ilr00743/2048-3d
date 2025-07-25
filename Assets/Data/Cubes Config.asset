@@ -1,0 +1,48 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6469647381fd4fb2ac6bfa177803b3c4, type: 3}
+  m_Name: Cubes Config
+  m_EditorClassIdentifier: 
+  _cubes:
+  - Index: 2
+    Probability: 75
+    Color: {r: 0.04111784, g: 0.60112816, b: 0.7924528, a: 1}
+  - Index: 4
+    Probability: 25
+    Color: {r: 0.8773585, g: 0.55869526, b: 0.82697463, a: 1}
+  - Index: 8
+    Probability: 0
+    Color: {r: 0.8490566, g: 0.8425789, b: 0.20425417, a: 1}
+  - Index: 16
+    Probability: 0
+    Color: {r: 0.745283, g: 0.24256852, b: 0.294266, a: 1}
+  - Index: 32
+    Probability: 0
+    Color: {r: 0.8584906, g: 0.5619498, b: 0.1822268, a: 1}
+  - Index: 64
+    Probability: 0
+    Color: {r: 0.5913581, g: 0.9150943, b: 0.63682216, a: 1}
+  - Index: 128
+    Probability: 0
+    Color: {r: 0.33388218, g: 0.5754717, b: 0.5754717, a: 1}
+  - Index: 256
+    Probability: 0
+    Color: {r: 0.31421176, g: 0.29196337, b: 0.764151, a: 1}
+  - Index: 512
+    Probability: 0
+    Color: {r: 0.36552152, g: 0.45641437, b: 0.6981132, a: 1}
+  - Index: 1024
+    Probability: 0
+    Color: {r: 0.4408152, g: 0.66055393, b: 0.735849, a: 1}
+  - Index: 2048
+    Probability: 0
+    Color: {r: 0.25822827, g: 0.2542275, b: 0.2735849, a: 1}
