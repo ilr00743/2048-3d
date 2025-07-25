@@ -153,7 +153,7 @@ Transform:
   m_GameObject: {fileID: 134939866}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.5100005, z: -6.0738287}
+  m_LocalPosition: {x: 0, y: 1, z: -6.0738287}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -240,7 +240,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0.21244211, g: 0.573618, b: 0.5849056, a: 0}
+  m_BackGroundColor: {r: 0.8544411, g: 0.8583541, b: 0.8584906, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -866,8 +866,7 @@ MonoBehaviour:
   _launchForce: 20
   _spawnPoint: {fileID: 134939867}
   _cubesConfig: {fileID: 11400000, guid: fd7fa54039fc94b4288d6b9cec52cdbf, type: 2}
-  <CurrentCube>k__BackingField: {fileID: 0}
-  <CubePrefab>k__BackingField: {fileID: -2414694085982039567, guid: 660edfa0a9612c64fb25cc028cb2ac5e,
+  _cubePrefab: {fileID: -2414694085982039567, guid: 660edfa0a9612c64fb25cc028cb2ac5e,
     type: 3}
 --- !u!4 &2069123127
 Transform:
