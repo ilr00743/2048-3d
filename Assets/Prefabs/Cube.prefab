@@ -152,13 +152,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0632a9d4af004e5182972c78fc3acb07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _indexes:
+  _numberTexts:
   - {fileID: 7755516165898379958}
   - {fileID: 9139565629669004648}
   - {fileID: 4988490975005728002}
   - {fileID: 7573932570650899670}
   - {fileID: 8505498082655820080}
   - {fileID: 148569159019004988}
+  _collisionForceThreshold: 2
 --- !u!1 &2011808164429424795
 GameObject:
   m_ObjectHideFlags: 0

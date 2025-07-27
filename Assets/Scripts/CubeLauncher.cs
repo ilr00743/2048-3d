@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using Configs;
+﻿using System;
 using UnityEngine;
 
 public class CubeLauncher : MonoBehaviour
@@ -7,25 +6,16 @@ public class CubeLauncher : MonoBehaviour
     [SerializeField] private float _minX;
     [SerializeField] private float _maxX;
     [SerializeField] private float _launchForce = 10f;
-    [SerializeField] private Transform _spawnPoint;
-    [SerializeField] private CubesConfig _cubesConfig;
-    [SerializeField] private Cube _cubePrefab;
 
     private bool _isDragging;
     private Vector3 _dragOffset;
     private Camera _camera;
     private Cube _currentCube;
 
+    public event Action<Cube> CubeDetached;
 
     private void Start()
     {
-        _currentCube = Instantiate(_cubePrefab, _spawnPoint.position, Quaternion.identity);
-        var cubeData = _cubesConfig.Cubes.FirstOrDefault(c => c.Index == 2);
-        
-        _currentCube.Initialize(cubeData.Index, cubeData.Color);
-        
-        _currentCube.SetKinematic(true);
-
         _camera = Camera.main;
     }
 
@@ -75,20 +65,13 @@ public class CubeLauncher : MonoBehaviour
     {
         _isDragging = false;
         LaunchCube();
-        
-        _currentCube = null;
-        _currentCube = Instantiate(_cubePrefab, _spawnPoint.position, Quaternion.identity);
-        
-        var cubeData = _cubesConfig.Cubes.FirstOrDefault(c => c.Index == 4);
-        _currentCube.Initialize(cubeData.Index, cubeData.Color);
-        
-        _currentCube.SetKinematic(true);
+        DetachCube();
     }
 
     private void LaunchCube()
     {
         _currentCube.SetKinematic(false);
-        _currentCube.PushForward(_launchForce);
+        _currentCube.Push(Vector3.forward, _launchForce);
     }
 
     private Vector3 GetMouseWorldPosition()
@@ -96,5 +79,18 @@ public class CubeLauncher : MonoBehaviour
         Vector3 mousePosition = Input.mousePosition;
         mousePosition.z = Mathf.Abs(_camera.transform.position.z - _currentCube.transform.position.z);
         return _camera.ScreenToWorldPoint(mousePosition);
+    }
+    
+    public void AttachCube(Cube cube)
+    {
+        _currentCube = cube;
+        _currentCube.SetKinematic(true);
+    }
+    
+    public void DetachCube()
+    {
+        _currentCube.SetKinematic(false);
+        CubeDetached?.Invoke(_currentCube);
+        _currentCube = null;
     }
 }

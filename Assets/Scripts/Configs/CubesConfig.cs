@@ -14,7 +14,7 @@ namespace Configs
     [Serializable]
     public class CubeData
     {
-        public int Index;
+        public int Number;
         public float Probability;
         public Color Color;
     }
