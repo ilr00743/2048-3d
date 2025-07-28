@@ -2,6 +2,14 @@
 
 A 3D version of the classic 2048 puzzle game built with Unity and C#.
 
+## Demo
+
+
+
+https://github.com/user-attachments/assets/f52ab119-23bc-4f3f-bdd9-8328195b9bec
+
+
+
 ## 🎮 Gameplay
 
 - **Objective**: Combine numbered cubes to reach 2048 and beyond
