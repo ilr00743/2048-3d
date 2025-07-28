@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-public class CubeLauncher : MonoBehaviour
+public class CubeLauncher : MonoBehaviour, ICubeLauncher
 {
     [SerializeField] private float _minX;
     [SerializeField] private float _maxX;

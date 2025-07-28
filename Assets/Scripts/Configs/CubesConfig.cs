@@ -8,7 +8,10 @@ namespace Configs
     public class CubesConfig : ScriptableObject
     {
         [SerializeField] private List<CubeData> _cubes;
+        [SerializeField] private int _maxCubesOnField = 10;
+        
         public IReadOnlyList<CubeData> Cubes => _cubes;
+        public int MaxCubesOnField => _maxCubesOnField;
     }
 
     [Serializable]

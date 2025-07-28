@@ -4,7 +4,7 @@ using DG.Tweening;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-public class CubesCombiner
+public class CubesCombiner : ICubesCombiner
 {
     public event Action<Cube> Combined;
     

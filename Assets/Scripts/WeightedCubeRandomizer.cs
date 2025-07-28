@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Configs;
 using UnityEngine;
 
@@ -7,9 +8,9 @@ public class WeightedCubeRandomizer : ICubeRandomizer
     private readonly List<CubeData> _cubes;
     private float _totalProbability;
     
-    public WeightedCubeRandomizer(List<CubeData> cubes)
+    public WeightedCubeRandomizer(IGameConfig gameConfig)
     {
-        _cubes = cubes;
+        _cubes = gameConfig.CubesConfig.Cubes.ToList();
         CalculateTotalProbability();
     }
     

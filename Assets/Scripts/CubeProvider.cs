@@ -3,21 +3,29 @@ using System.Linq;
 using Configs;
 using UnityEngine;
 using Random = UnityEngine.Random;
+using VContainer;
 
-public class CubeProvider : MonoBehaviour
+public class CubeProvider : MonoBehaviour, ICubeProvider, ICubeProviderInitializer
 {
     [SerializeField] private Cube _cubePrefab;
     [SerializeField] private Transform _spawnPoint;
     [SerializeField] private CubesConfig _cubesConfig;
     
-    private NumberProvider _numberProvider;
+    private INumberProvider _numberProvider;
     private ICubeRandomizer _cubeRandomizer;
     private List<CubeData> _tempData = new();
 
-    private void Awake()
+    [Inject]
+    public void Construct(INumberProvider numberProvider, ICubeRandomizer cubeRandomizer)
     {
-        _numberProvider = new NumberProvider();
-        _cubeRandomizer = new WeightedCubeRandomizer(_cubesConfig.Cubes.ToList());
+        _numberProvider = numberProvider;
+        _cubeRandomizer = cubeRandomizer;
+    }
+
+    public void Initialize(INumberProvider numberProvider, ICubeRandomizer cubeRandomizer)
+    {
+        _numberProvider = numberProvider;
+        _cubeRandomizer = cubeRandomizer;
     }
 
     public Cube CreateCube()

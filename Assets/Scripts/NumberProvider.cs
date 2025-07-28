@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class NumberProvider
+public class NumberProvider : INumberProvider
 {
     private const int Base = 2;
 
