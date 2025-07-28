@@ -1,8 +1,10 @@
 using System;
 
-public interface IScoreService
+namespace Interfaces
 {
-    event Action<int> ScoreChanged;
-    void AddScore(int cubeNumber);
-    int GetCurrentScore();
+    public interface IScoreService
+    {
+        event Action<int> ScoreChanged;
+        void AddScore(int cubeNumber);
+    }
 } 

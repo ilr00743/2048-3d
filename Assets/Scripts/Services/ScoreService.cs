@@ -1,28 +1,26 @@
 using System;
-using UnityEngine;
+using Interfaces;
 
-public class ScoreService : IScoreService
+namespace Services
 {
-    private int _currentScore;
-    private INumberProvider _numberProvider;
-
-    public event Action<int> ScoreChanged;
-
-    public ScoreService(INumberProvider numberProvider)
+    public class ScoreService : IScoreService
     {
-        _numberProvider = numberProvider;
-        _currentScore = 0;
-    }
+        private readonly INumberProvider _numberProvider;
+        private int _currentScore;
 
-    public void AddScore(int cubeNumber)
-    {
-        var value = _numberProvider.GetPower(cubeNumber);
-        _currentScore += value;
-        ScoreChanged?.Invoke(_currentScore);
-    }
+        public event Action<int> ScoreChanged;
 
-    public int GetCurrentScore()
-    {
-        return _currentScore;
+        public ScoreService(INumberProvider numberProvider)
+        {
+            _numberProvider = numberProvider;
+            _currentScore = 0;
+        }
+
+        public void AddScore(int cubeNumber)
+        {
+            var value = cubeNumber / 2;
+            _currentScore += value;
+            ScoreChanged?.Invoke(_currentScore);
+        }
     }
 } 

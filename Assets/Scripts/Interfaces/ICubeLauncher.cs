@@ -1,7 +1,6 @@
-using System;
-
-public interface ICubeLauncher
+namespace Interfaces
 {
-    event Action<Cube> CubeDetached;
-    void AttachCube(Cube cube);
+    public interface ICubeLauncher
+    {
+    }
 } 

@@ -46,4 +46,4 @@ MonoBehaviour:
   - Number: 2048
     Probability: 0
     Color: {r: 0.25822827, g: 0.2542275, b: 0.2735849, a: 1}
-  _maxCubesOnField: 10
+  _maxCubesOnField: 25

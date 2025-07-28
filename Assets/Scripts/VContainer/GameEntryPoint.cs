@@ -1,83 +1,88 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using VContainer.Unity;
+using Cubes;
+using Interfaces;
+using UI;
 using UnityEngine;
+using VContainer.Unity;
 
-public class GameEntryPoint : IAsyncStartable
+namespace VContainer
 {
-    private readonly CubeLauncher _cubeLauncher;
-    private readonly ICubeProvider _cubeProvider;
-    private readonly IScoreService _scoreService;
-    private readonly ICubesCombiner _cubesCombiner;
-    private readonly ScoreLabel _scoreLabel;
-    private readonly ICubeFieldManager _cubeFieldManager;
-    private readonly LosePanelController _losePanelController;
-
-    public GameEntryPoint(
-        CubeLauncher cubeLauncher,
-        ICubeProvider cubeProvider,
-        IScoreService scoreService,
-        ICubesCombiner cubesCombiner,
-        ScoreLabel scoreLabel,
-        ICubeFieldManager cubeFieldManager,
-        LosePanelController losePanelController)
+    public class GameEntryPoint : IAsyncStartable
     {
-        _cubeLauncher = cubeLauncher;
-        _cubeProvider = cubeProvider;
-        _scoreService = scoreService;
-        _cubesCombiner = cubesCombiner;
-        _scoreLabel = scoreLabel;
-        _cubeFieldManager = cubeFieldManager;
-        _losePanelController = losePanelController;
-    }
+        private readonly CubeLauncher _cubeLauncher;
+        private readonly ICubeProvider _cubeProvider;
+        private readonly IScoreService _scoreService;
+        private readonly ICubesCombiner _cubesCombiner;
+        private readonly ICubeFieldManager _cubeFieldManager;
+        private readonly LosePanelController _losePanelController;
 
-    public async Task StartAsync(CancellationToken cancellation)
-    {
-        _cubeLauncher.CubeDetached += OnCubeDetached;
-        _cubesCombiner.Combined += OnCubesCombined;
-        _cubeFieldManager.FieldOverflowed += OnFieldOverflowed;
-
-        var newCube = _cubeProvider.CreateCube();
-        _cubeLauncher.AttachCube(newCube);
-    }
-
-    private async void OnCubeDetached(Cube cube)
-    {
-        _cubeFieldManager.AddCube(cube);
-        cube.Collided += OnCubesCollided;
-        await Task.Delay(TimeSpan.FromSeconds(1));
-        
-        if (!_cubeFieldManager.IsFieldFull())
+        public GameEntryPoint(
+            CubeLauncher cubeLauncher,
+            ICubeProvider cubeProvider,
+            IScoreService scoreService,
+            ICubesCombiner cubesCombiner,
+            ICubeFieldManager cubeFieldManager,
+            LosePanelController losePanelController)
         {
+            _cubeLauncher = cubeLauncher;
+            _cubeProvider = cubeProvider;
+            _scoreService = scoreService;
+            _cubesCombiner = cubesCombiner;
+            _cubeFieldManager = cubeFieldManager;
+            _losePanelController = losePanelController;
+        }
+
+        public async Task StartAsync(CancellationToken cancellation)
+        {
+            Application.targetFrameRate = 60;
+            
+            _cubeLauncher.CubeDetached += OnCubeDetached;
+            _cubesCombiner.Combined += OnCubesCombined;
+            _cubeFieldManager.FieldOverflowed += OnFieldOverflowed;
+
             var newCube = _cubeProvider.CreateCube();
             _cubeLauncher.AttachCube(newCube);
         }
-    }
 
-    private void OnCubesCollided(Cube cube1, Cube cube2)
-    {
-        _scoreService.AddScore(cube1.Number);
-        _scoreLabel.AddScore(cube1.Number);
+        private async void OnCubeDetached(Cube cube)
+        {
+            _cubeFieldManager.AddCube(cube);
+            cube.Collided += OnCubesCollided;
+            await Task.Delay(TimeSpan.FromSeconds(1));
         
-        _cubeFieldManager.RemoveCube(cube1);
-        _cubeFieldManager.RemoveCube(cube2);
+            if (!_cubeFieldManager.IsFieldFull())
+            {
+                var newCube = _cubeProvider.CreateCube();
+                _cubeLauncher.AttachCube(newCube);
+            }
+        }
+
+        private void OnCubesCollided(Cube cube1, Cube cube2)
+        {
+            _scoreService.AddScore(cube1.Number);
         
-        var nextCubeData = _cubeProvider.GetNextCubeData(cube1.Number);
-        _cubesCombiner.Combine(cube1, cube2, nextCubeData);
+            _cubeFieldManager.RemoveCube(cube1);
+            _cubeFieldManager.RemoveCube(cube2);
+        
+            var nextCubeData = _cubeProvider.GetNextCubeData(cube1.Number);
+            _cubesCombiner.Combine(cube1, cube2, nextCubeData);
 
-        cube1.Collided -= OnCubesCollided;
-        cube2.Collided -= OnCubesCollided;
-    }
+            cube1.Collided -= OnCubesCollided;
+            cube2.Collided -= OnCubesCollided;
+        }
 
-    private void OnCubesCombined(Cube cube)
-    {
-        _cubeFieldManager.AddCube(cube);
-        cube.Collided += OnCubesCollided;
-    }
+        private void OnCubesCombined(Cube cube)
+        {
+            _cubeFieldManager.AddCube(cube);
+            cube.Collided += OnCubesCollided;
+        }
 
-    private void OnFieldOverflowed()
-    {
-        _losePanelController.ShowLosePanel();
+        private void OnFieldOverflowed()
+        {
+            _losePanelController.Show();
+            _cubeLauncher.gameObject.SetActive(false);
+        }
     }
 } 

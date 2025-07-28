@@ -1,30 +1,33 @@
 using UnityEngine;
 
-public class LosePanelController : MonoBehaviour
+namespace UI
 {
-    [SerializeField] private GameObject _losePanel;
-
-    private void Start()
+    public class LosePanelController : MonoBehaviour
     {
-        if (_losePanel != null)
+        [SerializeField] private GameObject _losePanel;
+
+        private void Start()
         {
-            _losePanel.SetActive(false);
+            if (_losePanel != null)
+            {
+                _losePanel.SetActive(false);
+            }
         }
-    }
 
-    public void ShowLosePanel()
-    {
-        if (_losePanel != null)
+        public void Show()
         {
-            _losePanel.SetActive(true);
+            if (_losePanel != null)
+            {
+                _losePanel.SetActive(true);
+            }
         }
-    }
 
-    public void HideLosePanel()
-    {
-        if (_losePanel != null)
+        public void Hide()
         {
-            _losePanel.SetActive(false);
+            if (_losePanel != null)
+            {
+                _losePanel.SetActive(false);
+            }
         }
     }
 } 

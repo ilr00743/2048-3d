@@ -1,11 +1,13 @@
 using System;
+using Cubes;
 
-public interface ICubeFieldManager
+namespace Interfaces
 {
-    event Action FieldOverflowed;
-    void AddCube(Cube cube);
-    void RemoveCube(Cube cube);
-    int GetCubesCount();
-    bool IsFieldFull();
-    void Clear();
+    public interface ICubeFieldManager
+    {
+        event Action FieldOverflowed;
+        void AddCube(Cube cube);
+        void RemoveCube(Cube cube);
+        bool IsFieldFull();
+    }
 } 

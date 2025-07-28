@@ -1,56 +1,47 @@
 using System;
 using System.Collections.Generic;
-using UnityEngine;
+using Cubes;
+using Interfaces;
 
-public class CubeFieldManager : ICubeFieldManager
+namespace Services
 {
-    private readonly List<Cube> _cubesOnField = new();
-    private readonly int _maxCubesOnField;
-    private readonly Action _onFieldOverflow;
-
-    public event Action FieldOverflowed;
-
-    public CubeFieldManager(int maxCubesOnField, Action onFieldOverflow = null)
+    public class CubeFieldManager : ICubeFieldManager
     {
-        _maxCubesOnField = maxCubesOnField;
-        _onFieldOverflow = onFieldOverflow;
-    }
+        private readonly List<Cube> _cubesOnField = new();
+        private readonly int _maxCubesOnField;
 
-    public void AddCube(Cube cube)
-    {
-        if (!_cubesOnField.Contains(cube))
+        public event Action FieldOverflowed;
+
+        public CubeFieldManager(int maxCubesOnField)
         {
-            _cubesOnField.Add(cube);
-            CheckFieldOverflow();
+            _maxCubesOnField = maxCubesOnField;
         }
-    }
 
-    public void RemoveCube(Cube cube)
-    {
-        _cubesOnField.Remove(cube);
-    }
-
-    public int GetCubesCount()
-    {
-        return _cubesOnField.Count;
-    }
-
-    public bool IsFieldFull()
-    {
-        return _cubesOnField.Count >= _maxCubesOnField;
-    }
-
-    private void CheckFieldOverflow()
-    {
-        if (IsFieldFull())
+        public void AddCube(Cube cube)
         {
-            FieldOverflowed?.Invoke();
-            _onFieldOverflow?.Invoke();
+            if (!_cubesOnField.Contains(cube))
+            {
+                _cubesOnField.Add(cube);
+                CheckFieldOverflow();
+            }
         }
-    }
 
-    public void Clear()
-    {
-        _cubesOnField.Clear();
+        public void RemoveCube(Cube cube)
+        {
+            _cubesOnField.Remove(cube);
+        }
+
+        public bool IsFieldFull()
+        {
+            return _cubesOnField.Count >= _maxCubesOnField;
+        }
+
+        private void CheckFieldOverflow()
+        {
+            if (IsFieldFull())
+            {
+                FieldOverflowed?.Invoke();
+            }
+        }
     }
 } 

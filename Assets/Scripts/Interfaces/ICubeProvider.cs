@@ -1,7 +1,11 @@
 using Configs;
+using Cubes;
 
-public interface ICubeProvider
+namespace Interfaces
 {
-    Cube CreateCube();
-    CubeData GetNextCubeData(int currentNumber);
+    public interface ICubeProvider
+    {
+        Cube CreateCube();
+        CubeData GetNextCubeData(int currentNumber);
+    }
 } 

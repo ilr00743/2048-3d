@@ -1,4 +1,7 @@
-public interface IScoreLabel
+namespace Interfaces
 {
-    void Initialize(INumberProvider numberProvider);
+    public interface IScoreLabel
+    {
+    
+    }
 } 

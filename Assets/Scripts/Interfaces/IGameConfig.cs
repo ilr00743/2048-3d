@@ -1,6 +1,9 @@
 using Configs;
 
-public interface IGameConfig
+namespace Interfaces
 {
-    CubesConfig CubesConfig { get; }
+    public interface IGameConfig
+    {
+        CubesConfig CubesConfig { get; }
+    }
 } 

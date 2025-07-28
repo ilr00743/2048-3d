@@ -1,8 +1,12 @@
 using System;
 using Configs;
+using Cubes;
 
-public interface ICubesCombiner
+namespace Interfaces
 {
-    event Action<Cube> Combined;
-    void Combine(Cube cube1, Cube cube2, CubeData nextCubeData);
+    public interface ICubesCombiner
+    {
+        event Action<Cube> Combined;
+        void Combine(Cube cube1, Cube cube2, CubeData nextCubeData);
+    }
 } 

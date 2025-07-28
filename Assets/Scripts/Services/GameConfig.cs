@@ -1,11 +1,15 @@
 using Configs;
+using Interfaces;
 
-public class GameConfig : IGameConfig
+namespace Services
 {
-    public CubesConfig CubesConfig { get; }
-
-    public GameConfig(CubesConfig cubesConfig)
+    public class GameConfig : IGameConfig
     {
-        CubesConfig = cubesConfig;
+        public CubesConfig CubesConfig { get; }
+
+        public GameConfig(CubesConfig cubesConfig)
+        {
+            CubesConfig = cubesConfig;
+        }
     }
 } 

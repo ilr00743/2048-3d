@@ -1,7 +1,8 @@
-public interface INumberProvider
+namespace Interfaces
 {
-    int GetNumber(int power);
-    int GetNextNumber(int currentNumber);
-    int GetPower(int number);
-    int GetNextPower(int number);
+    public interface INumberProvider
+    {
+        int GetNextNumber(int currentNumber);
+        int GetPower(int number);
+    }
 } 
