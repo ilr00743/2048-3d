@@ -3,7 +3,6 @@ using Configs;
 using DG.Tweening;
 using UnityEngine;
 using Object = UnityEngine.Object;
-using Random = UnityEngine.Random;
 
 public class CubesCombiner
 {
@@ -11,6 +10,9 @@ public class CubesCombiner
     
     public void Combine(Cube cube1, Cube cube2, CubeData nextCubeData)
     {
+        cube1.IsBeingCombined = true;
+        cube2.IsBeingCombined = true;
+        
         var middlePosition = GetMiddlePosition(cube1, cube2);
         
         cube1.SetKinematic(true);
@@ -30,14 +32,18 @@ public class CubesCombiner
     private void OnCombined(Cube cube1, Cube cube2, int newNumber)
     {
         cube1.SetKinematic(false);
+        cube1.IsBeingCombined = false;
         cube1.Number = newNumber;
         cube1.SetNumberTexts(newNumber);
-        Object.Destroy(cube2.gameObject);
-    
+        
+        DOTween.Kill(cube2.transform);
+        DOTween.Kill(cube2);
+
         Combined?.Invoke(cube1);
-    
-        cube1.Push(Vector3.up, 7);
-        cube1.Rotate(Random.rotation.eulerAngles);
+        
+        Object.Destroy(cube2.gameObject);
+
+        cube1.PlayCompleteCombineAnimation();
     }
     
     private Vector3 GetMiddlePosition(Cube cube1, Cube cube2)

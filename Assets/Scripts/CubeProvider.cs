@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Configs;
 using UnityEngine;
@@ -10,32 +9,30 @@ public class CubeProvider : MonoBehaviour
     [SerializeField] private Cube _cubePrefab;
     [SerializeField] private Transform _spawnPoint;
     [SerializeField] private CubesConfig _cubesConfig;
+    
     private NumberProvider _numberProvider;
-
+    private ICubeRandomizer _cubeRandomizer;
     private List<CubeData> _tempData = new();
 
     private void Awake()
     {
         _numberProvider = new NumberProvider();
+        _cubeRandomizer = new WeightedCubeRandomizer(_cubesConfig.Cubes.ToList());
     }
 
     public Cube CreateCube()
     {
-        var cubeData = GetRandomCubeData();
+        var cubeData = _cubeRandomizer.GetRandomCubeData();
         var cube = Instantiate(_cubePrefab, _spawnPoint.position, Quaternion.identity);
         cube.Initialize(cubeData.Number, cubeData.Color);
-        return cube;
-    }
+        cube.PlayAppearanceAnimation();
 
-    private CubeData GetRandomCubeData()
-    {
-        return _cubesConfig.Cubes[Random.Range(0, 2)];
+        return cube;
     }
 
     public CubeData GetNextCubeData(int currentNumber)
     {
         var nextNumber = _numberProvider.GetNextNumber(currentNumber);
-
         var newData = _cubesConfig.Cubes.FirstOrDefault(d => d.Number == nextNumber);
 
         if (newData != null) return newData;
@@ -53,10 +50,6 @@ public class CubeProvider : MonoBehaviour
 
     private Color GetRandomBrightColor()
     {
-        return Color.HSVToRGB(
-            Random.Range(0f, 1f),
-            1f,
-            1f
-        );
+        return Color.HSVToRGB(Random.Range(0f, 1f), 1f, 1f);
     }
 }

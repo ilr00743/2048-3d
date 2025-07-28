@@ -21,6 +21,7 @@ public class CubeLauncher : MonoBehaviour
 
     private void Update()
     {
+        if (_currentCube == null) return;
         HandleInput();
     }
 
@@ -72,6 +73,7 @@ public class CubeLauncher : MonoBehaviour
     {
         _currentCube.SetKinematic(false);
         _currentCube.Push(Vector3.forward, _launchForce);
+        _currentCube.StopAppearanceAnimation();
     }
 
     private Vector3 GetMouseWorldPosition()
@@ -87,7 +89,7 @@ public class CubeLauncher : MonoBehaviour
         _currentCube.SetKinematic(true);
     }
     
-    public void DetachCube()
+    private void DetachCube()
     {
         _currentCube.SetKinematic(false);
         CubeDetached?.Invoke(_currentCube);

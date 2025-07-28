@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using DG.Tweening;
 using TMPro;
 using UnityEngine;
 
@@ -10,19 +10,28 @@ public class Cube : MonoBehaviour
 {
     [SerializeField] private List<TMP_Text> _numberTexts;
     [SerializeField] private float _collisionForceThreshold;
+
     private Renderer _renderer;
     private Rigidbody _rigidbody;
-    
+    private Vector3 _defaultScale;
     private bool _isKinematic;
 
+    public bool IsBeingCombined { get; set; }
     public int Number { get; set; }
-    public Color Color { get => _renderer.material.color; set => _renderer.material.color = value; }
+
+    public Color Color
+    {
+        get => _renderer.material.color;
+        set => _renderer.material.color = value;
+    }
+
     public event Action<Cube, Cube> Collided;
 
     private void Awake()
     {
         _renderer = GetComponent<Renderer>();
         _rigidbody = GetComponent<Rigidbody>();
+        _defaultScale = transform.localScale;
     }
 
     public void Initialize(int number, Color color)
@@ -31,6 +40,7 @@ public class Cube : MonoBehaviour
         SetNumberTexts(number);
         _renderer.material.color = color;
         SetKinematic(true);
+        IsBeingCombined = false;
     }
 
     public void SetNumberTexts(int number)
@@ -42,14 +52,15 @@ public class Cube : MonoBehaviour
     {
         _rigidbody.AddForce(direction * force, ForceMode.Impulse);
     }
-    
-    public void Rotate(Vector3 torque)
+
+    private void Rotate(Vector3 torque)
     {
         _rigidbody.AddTorque(torque, ForceMode.Impulse);
     }
 
     public void SetKinematic(bool isKinematic)
     {
+        _isKinematic = isKinematic;
         _rigidbody.isKinematic = isKinematic;
         _rigidbody.constraints = isKinematic ? RigidbodyConstraints.FreezeAll : RigidbodyConstraints.None;
     }
@@ -64,25 +75,62 @@ public class Cube : MonoBehaviour
 
     private void OnCollideWithCube(Cube cube, Collision collision)
     {
+        if (IsBeingCombined || cube.IsBeingCombined) return;
         if (cube._isKinematic) return;
-
         if (cube.Number != Number) return;
 
         var collisionForce = CalculateCollisionForce(collision);
-        
+
         if (collisionForce >= _collisionForceThreshold)
         {
             Collided?.Invoke(cube, this);
-            Debug.Log($"Same cubes collided: cube 1 - {cube.Number}, cube 2 - {Number}, current force: {collisionForce}", this);
         }
         else
         {
             Debug.Log($"Collision force is too low. Current force: {collisionForce}, threshold: {_collisionForceThreshold}", this);
         }
     }
-    
+
     private float CalculateCollisionForce(Collision collision)
     {
         return collision.relativeVelocity.magnitude;
+    }
+
+    public void PlayCompleteCombineAnimation()
+    {
+        if (this == null || transform == null) return;
+        
+        Push(Vector3.up, 7);
+        Rotate(UnityEngine.Random.rotation.eulerAngles);
+        transform.localScale = _defaultScale;
+
+        transform.DOShakeScale(0.2f)
+            .SetTarget(this)
+            .OnComplete(() => 
+            {
+                if (this != null && transform != null)
+                {
+                    transform.localScale = _defaultScale;
+                }
+            });
+    }
+
+    public void PlayAppearanceAnimation()
+    {
+        transform.localScale = Vector3.zero;
+        transform.DOScale(_defaultScale, 0.3f);
+        transform.DORotate(new Vector3(0f, 360f, 0f), 0.3f, RotateMode.FastBeyond360);
+    }
+
+    public void StopAppearanceAnimation()
+    {
+        transform.DOKill();
+        transform.localScale = _defaultScale;
+    }
+
+    public void OnDestroy()
+    {
+        DOTween.Kill(transform);
+        DOTween.Kill(this);
     }
 }

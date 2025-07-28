@@ -14,7 +14,7 @@ public class NumberProvider
         return GetNumber(GetNextPower(currentNumber));
     }
 
-    private int GetPower(int number)
+    public int GetPower(int number)
     {
         return (int)Mathf.Log(number, Base);
     }
